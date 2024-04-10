@@ -43,7 +43,7 @@ function AddBus() {
             <div style={{height:'25vh'}}></div>
             <Grid item xs={12}>
             <Paper elevation={3} style={{ padding: '20px', backgroundColor:'rgba(0, 0, 0, 0.85)' }}>
-              <Typography variant="h6" style={{ marginBottom: '20px' }}>Add New Bus Location</Typography>
+              <Typography variant="h6" style={{ marginBottom: '20px' }}>Add New Bus</Typography>
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                   {/* Form fields */}
