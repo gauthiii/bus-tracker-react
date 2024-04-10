@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect } from 'react';
 import { Button, TextField, FormControl, InputLabel, Select, MenuItem, Container, Grid, Paper, Typography, Box  } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -13,6 +13,16 @@ function AddBus() {
         route: '',
         status: ''
       });
+
+      const history = useHistory();
+
+      useEffect(() => {
+        // Check if the user's email is not admin@admin.com
+        const userEmail = localStorage.getItem('userEmail');
+        if (userEmail !== "admin@admin.com") {
+            history.push('/'); // Redirect to the root route if the user is not an admin
+        }
+    }, [history]);
 
 
     const handleSubmit = async (e) => {

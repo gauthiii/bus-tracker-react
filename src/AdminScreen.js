@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Button, Container } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 
@@ -8,6 +8,16 @@ function AdminScreen() {
     const navigateToAddDriver = () => history.push('/add-driver'); // Adjust the route as needed
     const navigateToAddBus = () => history.push('/add-bus'); // Adjust the route as needed
     const navigateToDashboard = () => history.push('/?userType=admin'); // Adjust the route as needed
+
+    
+
+      useEffect(() => {
+        // Check if the user's email is not admin@admin.com
+        const userEmail = localStorage.getItem('userEmail');
+        if (userEmail !== "admin@admin.com") {
+            history.push('/'); // Redirect to the root route if the user is not an admin
+        }
+    }, [history]);
 
     return (
         <div style={{backgroundColor:'rgba(0, 0, 0, 0.75)',width:'100%',height:'100vh'}}>
