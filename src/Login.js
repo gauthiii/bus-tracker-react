@@ -62,6 +62,8 @@ function Login() {
       // Logic to handle what happens after the details are set. Perhaps a re-login is required.
       setShowSetDetails(false);
       // Optionally, you can trigger a re-login or token refresh here
+      alert('Login Again!!!');
+      window.location = '/?userType=user';
     };
   
     if (showSetDetails) {
