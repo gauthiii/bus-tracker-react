@@ -22,6 +22,8 @@
   .form-card {
     
      background-image: url(busWal.webp);
+     /* background-color: rgba(0, 0, 0, 0.282);
+     border: 5px solid black; */
     /* background-color: rgba(115, 113, 113, 0.589);
     background-blend-mode: lighten;  */
     background-size: cover;
@@ -40,7 +42,7 @@
   .form-title {
     margin-bottom: 2rem;
     text-align: center;
-    color: #000000;
+    color: white;
     font-size: 24px;
     font-family: "IBM Plex Serif", serif;
   }

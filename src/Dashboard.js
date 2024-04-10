@@ -35,7 +35,7 @@ function Dashboard() {
   const handleSignOut = () => {
     localStorage.removeItem('token'); // Remove token from localStorage
     localStorage.removeItem('userEmail'); // Consider removing the email as well
-    window.location = '/login'; // Redirect to login page
+    window.location = '/userOrDriver'; // Redirect to login page
   };
 
   const handleSubmit = async (e) => {
@@ -53,8 +53,8 @@ function Dashboard() {
 
   return (
     <div >
-      <Box className="dashback"></Box>
-    <Container style={{padding:"20px"}} maxWidth="2g">
+      <Box className="dashbback"></Box>
+    <Container style={{padding:"40px"}} maxWidth="2g">
       <Grid container spacing={3}>
         <Grid item xs={12} container>
           <Grid item xs={12} md={4}>

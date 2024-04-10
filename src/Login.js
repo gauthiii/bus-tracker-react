@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link, useLocation, useHistory  } from 'react-router-dom'; // Import Link from react-router-dom
 import './AuthForm.css';
 import SetDetails from './SetDetails'; // This is the new component you need to create
 
@@ -10,6 +10,24 @@ function Login() {
 
     const [userId, setUserId] = useState(''); // For storing the user ID if additional details are needed
     const [showSetDetails, setShowSetDetails] = useState(false); // For toggling the SetDetails component
+
+    const location = useLocation(); // Use location to access query params
+
+    const history = useHistory(); // Use useHistory for redirection
+
+    // Redirect if no userType query param is present
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const userType = params.get('userType');
+        if (!userType) {
+            history.push('/userOrDriver');
+        }
+    }, [location, history]);
+
+    // Function to parse the query parameters and return userType
+    const getUserTypeFromSearch = () => {
+        return new URLSearchParams(location.search).get('userType');
+    };
   
     const handleLogin = async (e) => {
       e.preventDefault();
@@ -23,9 +41,16 @@ function Login() {
         } else {
           // Handle successful login with JWT token here
           localStorage.setItem('token', response.data.token);
+          localStorage.setItem('userEmail', email); // Storing email to check for admin
+
           // Navigate to the dashboard or home page after successful login
           // navigate('/dashboard'); // Uncomment this if using react-router-dom for navigation
-          window.location = '/';
+
+          if (email === "admin@admin.com") {
+            window.location = '/admin';
+        } else{
+          window.location = '/?userType='+getUserTypeFromSearch();
+        }
         }
       } catch (error) {
         alert('Login failed. Please try again.');
@@ -50,9 +75,11 @@ function Login() {
                 <input type="email" className="form-input" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
                 <input type="password" className="form-input" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
                <div style={{textAlign:"center"}}><button type="submit" className="form-button">Login</button></div> 
-                <p className="form-footer">
-                   Don't have an account?<Link to="/register">Register here</Link>
-                </p>
+                {getUserTypeFromSearch() === 'user' && (
+                    <p className="form-footer">
+                        Don't have an account?<Link to="/register?userType=user">Register here</Link>
+                    </p>
+                )}
             </form>
         </div>
     );
