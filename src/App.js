@@ -8,6 +8,7 @@ import './App.css';
 import Profile from './Profile';
 import UserOrDriver from './UserOrDriver'; // Make sure to create this component
 import AdminScreen from './AdminScreen'; 
+import AddBus from './AddBus';
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                     <ProtectedRoute path="/profile" component={Profile} />
                     <ProtectedRoute path="/" exact component={Dashboard} />
                     <Route path="/admin" component={AdminScreen} />
+                    <Route path="/add-bus" component={AddBus} />
                    {/* <Route path="/userOrDriver" component={UserOrDriver} />  Make sure this is the last Route */}
                 </Switch>
             </div>
