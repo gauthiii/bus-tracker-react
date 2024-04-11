@@ -31,8 +31,9 @@ function Login() {
   
     const handleLogin = async (e) => {
       e.preventDefault();
-      try {
-        const response = await axios.post('http://localhost:5000/api/login', { email, password });
+      const userType = new URLSearchParams(location.search).get('userType');
+    try {
+        const response = await axios.post('http://localhost:5000/api/login', { email, password, userType });
   
         if (response.status === 202) {
           // Server responded with a request for additional details
@@ -49,11 +50,21 @@ function Login() {
           if (email === "admin@admin.com") {
             window.location = '/admin';
         } else{
+
+          if(getUserTypeFromSearch()==="driver"){
+
+            
+
+            window.location = '/driverDash';
+
+          }
+          else{
           window.location = '/?userType='+getUserTypeFromSearch();
+          }
         }
         }
       } catch (error) {
-        alert('Login failed. Please try again.');
+        alert('Login failed. Please try again.'+error.response.data);
         console.error(error);
       }
     };

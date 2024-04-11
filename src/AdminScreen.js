@@ -19,6 +19,12 @@ function AdminScreen() {
         }
     }, [history]);
 
+    const handleSignOut = () => {
+        localStorage.removeItem('token'); // Remove token from localStorage
+        localStorage.removeItem('userEmail'); // Consider removing the email as well
+        window.location = '/userOrDriver'; // Redirect to login page
+      };
+
     return (
         <div style={{backgroundColor:'rgba(0, 0, 0, 0.75)',width:'100%',height:'100vh'}}>
         <Container component="main" maxWidth="xs">
@@ -30,9 +36,10 @@ function AdminScreen() {
             <Button variant="contained" color="secondary" fullWidth onClick={navigateToAddBus} style={{ marginBottom: '20px' }}>
                 Add Bus
             </Button>
-            <Button variant="contained" color="success" fullWidth onClick={navigateToDashboard}>
+            <Button variant="contained" color="success" fullWidth onClick={navigateToDashboard} style={{ marginBottom: '20px' }}>
                 View Dashboard
             </Button>
+            <Button onClick={handleSignOut} variant="contained" color="primary" style={{ marginTop: '20px' }}>Sign Out</Button>
         </Container>
         </div>
     );

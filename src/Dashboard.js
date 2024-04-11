@@ -106,7 +106,7 @@ function Dashboard() {
           </Grid>
         )}
       </Grid>
-      <Button onClick={handleSignOut} style={{ marginTop: '20px' }}>Sign Out</Button>
+      <Button onClick={handleSignOut} variant="contained" color="primary" style={{ marginTop: '20px' }}>Sign Out</Button>
     </Container>
     </div>
   );

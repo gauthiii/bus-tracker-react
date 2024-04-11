@@ -25,7 +25,7 @@ function Register() {
         try {
             await axios.post('http://localhost:5000/api/register', { email, password });
             alert('Registration successful');
-            window.location = '/login';
+            window.location = '/login?userType=user';
         } catch (error) {
             console.error(error);
             alert('Registration failed');

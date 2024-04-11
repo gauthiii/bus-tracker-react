@@ -10,6 +10,8 @@ import UserOrDriver from './UserOrDriver'; // Make sure to create this component
 import AdminScreen from './AdminScreen'; 
 import AddBus from './AddBus';
 import AddDriver from './AddDriver'
+import  SetDetails from './SetDetails'
+import DriverDash from './DriverDash'
 
 function App() {
     return (
@@ -24,6 +26,8 @@ function App() {
                     <Route path="/admin" component={AdminScreen} />
                     <Route path="/add-bus" component={AddBus} />
                     <Route path="/add-driver" component={AddDriver} />
+                    <Route path="/set-details" component={SetDetails} />
+                    <Route path="/driverDash" component={DriverDash} />
                    {/* <Route path="/userOrDriver" component={UserOrDriver} />  Make sure this is the last Route */}
                 </Switch>
             </div>
