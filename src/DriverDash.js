@@ -3,6 +3,26 @@ import { Button, TextField, Container, Grid, Paper, Typography, Card, CardConten
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
+const reverseGeocodeNominatim = async (latitude, longitude) => {
+  const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+
+  try {
+      const response = await axios.get(url, {
+          headers: {
+              'User-Agent': 'MyAppName/1.0 (your-email@example.com)'  // Replace with your app name and your contact email
+          }
+      });
+      if (response.data) {
+          return response.data.display_name;  // This returns the full address
+      } else {
+          throw new Error('No results found');
+      }
+  } catch (error) {
+      console.error('Error during the reverse geocoding process:', error);
+      return null;
+  }
+};
+
 function DriverDash() {
     const [busName, setBusName] = useState('');
     const [passcode, setPasscode] = useState('');
@@ -23,6 +43,17 @@ function DriverDash() {
             const { latitude, longitude } = position.coords;
             const email = localStorage.getItem('userEmail');
 
+            var address = await reverseGeocodeNominatim(latitude, longitude);
+
+            address=address.split(",");
+            address=address[[address.length-1-4]]
+
+
+            //13.004202
+            //80.201471
+
+            console.log("address: ", address);
+
             try {
                 await axios.post('http://localhost:5000/api/driver/check-in', {
                     email,
@@ -30,11 +61,16 @@ function DriverDash() {
                     busName,
                     lat: latitude,
                     lon: longitude,
+                    address
                 });
 
                 
                 setIsLive(true);
-                localStorage.setItem('driverBus', busName); 
+                localStorage.setItem('driverBus', busName);
+                localStorage.setItem('driverEmail', email); 
+                localStorage.setItem('driverPasscode', passcode); 
+                localStorage.setItem('driverLat', latitude); 
+                localStorage.setItem('driverLon', longitude);  
                 setBus(busName);
             } catch (error) {
                 console.error('Error during driver check-in:', error.response.data);
@@ -48,16 +84,48 @@ function DriverDash() {
         });
     };
 
-    const handleTurnOffLive = () => {
+    const handleTurnOffLive = async () => {
         setIsLive(false);
-        localStorage.removeItem('busName');
+        
         setBus()
+       const email = localStorage.getItem('driverEmail');
+       const passcode = localStorage.getItem('driverPasscode');
+       const busName = localStorage.getItem ('driverBus');
+       const latitude = localStorage.getItem('driverLat');
+       const longitude = localStorage.getItem('driverLon');
+
+        try {
+          await axios.post('http://localhost:5000/api/driver/check-in', {
+              email,
+              passcode,
+              busName,
+              lat: latitude,
+              lon: longitude,
+              address:"Driver not Assigned"
+          });
+
+          localStorage.removeItem('busName');
+        localStorage.removeItem('driverEmail');
+        localStorage.removeItem('driverPasscode');
+        localStorage.removeItem('driverLat');
+        localStorage.removeItem('driverLon');
+          
+      } catch (error) {
+          console.error('Error during driver live off', error.response.data);
+          alert(error.response.data);
+          
+      }
+      
     };
 
     const handleSignOut = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userEmail');
         localStorage.removeItem('busName');
+        localStorage.removeItem('driverEmail');
+        localStorage.removeItem('driverPasscode');
+        localStorage.removeItem('driverLat');
+        localStorage.removeItem('driverLon');
         history.push('/userOrDriver');
     };
 
