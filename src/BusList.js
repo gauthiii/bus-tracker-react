@@ -23,13 +23,23 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 function BusList({ buses, onBusSelect, myLat, myLon }) {
   const [selectedBusId, setSelectedBusId] = useState(null);
   const [selectedRoute, setSelectedRoute] = useState('');
+  const [selectedName, setSelectedName] = useState('');
   const [filteredBuses, setFilteredBuses] = useState(buses);
   const averageSpeedKmH = 20; // Average bus speed in km/h
 
   useEffect(() => {
-    const busesToShow = selectedRoute ? buses.filter(bus => bus.route === selectedRoute) : buses;
-    setFilteredBuses(busesToShow);
-  }, [buses, selectedRoute]);
+    let result = buses;
+
+    if (selectedRoute) {
+      result = result.filter(bus => bus.route === selectedRoute);
+    }
+
+    if (selectedName) {
+      result = result.filter(bus => bus.name === selectedName);
+    }
+
+    setFilteredBuses(result);
+  }, [buses, selectedRoute, selectedName]);
 
   const handleBusSelect = (bus) => {
     if (selectedBusId === bus.id) {
@@ -43,10 +53,17 @@ function BusList({ buses, onBusSelect, myLat, myLon }) {
 
   const handleRouteChange = (event) => {
     setSelectedRoute(event.target.value);
+    setSelectedName('');
+  };
+
+  const handleNameChange = (event) => {
+    setSelectedName(event.target.value);
+    setSelectedRoute('');
   };
 
   const resetFilter = () => {
     setSelectedRoute('');
+    setSelectedName('');
   };
 
   return (
@@ -67,6 +84,22 @@ function BusList({ buses, onBusSelect, myLat, myLon }) {
           ))}
         </Select>
       </FormControl>
+
+      <FormControl style={{width:"100%",paddingBottom:"20px"}}>
+        <InputLabel>Filter by Bus</InputLabel>
+        <Select
+          value={selectedName}
+          label="Filter by Bus Name"
+          onChange={handleNameChange}
+        >
+          <MenuItem value="">All Buses</MenuItem>
+          {buses.map(bus => (
+            <MenuItem key={bus.name} value={bus.name}>{bus.name}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+
       <Button onClick={resetFilter} variant="contained" color="primary" sx={{ mb: 2 }}>Reset Filter</Button>
       {filteredBuses.map(bus => {
         const distance = calculateDistance(13.004202, 80.201471, bus.lat, bus.lon).toFixed(2);

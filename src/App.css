@@ -105,7 +105,7 @@ code {
 .bus-list {
   flex: 0 0 300px; /* adjust the width of the sidebar */
   overflow-y: auto;
-  height: 50vh;
+  height: 70vh;
   background-color: var(--surface-color);
   padding: 1rem;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
