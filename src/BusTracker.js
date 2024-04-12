@@ -28,9 +28,23 @@ function BusTracker() {
   const [busLocations, setBusLocations] = useState([]);
   const [mapCenter, setMapCenter] = useState([13.038321, 80.213593]); // Default center
   const [mapZoom, setMapZoom] = useState(12); // Default zoom level
+  const [myLat,setLat] = useState(13.004202)
+  const [myLon,setLon] = useState(80.201471)
 
-  const myLat = 13.004202; 
-  const myLon = 80.201471;
+  navigator.geolocation.getCurrentPosition(async (position) => {
+    const { latitude, longitude } = position.coords;
+
+    setLat(latitude)
+    setLon(longitude)
+   
+
+  
+}, (err) => {
+    console.error('Error obtaining location:', err.message);
+    alert('Failed to get current location. Please ensure location services are enabled.');
+  
+});
+
 
   useEffect(() => {
     async function fetchBusLocations() {

@@ -33,7 +33,8 @@ function AddBus() {
           setNewBus({
             ...newBus,
             lat: position.coords.latitude,
-            lon: position.coords.longitude
+            lon: position.coords.longitude,
+            status: "Driver not Assigned"
           });
         });
       } else {
@@ -84,14 +85,7 @@ function AddBus() {
          <TextField fullWidth label="Bus Name" variant="outlined" value={newBus.name} onChange={(e) => setNewBus({ ...newBus, name: e.target.value })} required />
        </Grid>
        <Grid item xs={12} sm={6}>
-         <FormControl fullWidth variant="outlined">
-           <InputLabel>Route</InputLabel>
-           <Select value={newBus.route} onChange={(e) => setNewBus({ ...newBus, route: e.target.value })} label="Route" required>
-             {['Tambaram', 'Chrompet', 'Pallavaram', 'Tirusulam', 'Nanganallur', 'Meenambakkam', 'Alandur', 'Guindy', 'Ashok Nagar', 'Valasaravakkam', 'Vadapalani', 'Koyambedu'].map(route => (
-               <MenuItem key={route} value={route}>{route}</MenuItem>
-             ))}
-           </Select>
-         </FormControl>
+       <TextField fullWidth label="Route" variant="outlined" value={newBus.route} onChange={(e) => setNewBus({ ...newBus, route: e.target.value })} required />
        </Grid>
        <Grid item xs={12}>
          <TextField fullWidth label="Status" variant="outlined" value={newBus.status} onChange={(e) => setNewBus({ ...newBus, status: e.target.value })} required />
