@@ -16,6 +16,8 @@ function AddBus() {
 
       const history = useHistory();
 
+
+
       useEffect(() => {
         // Check if the user's email is not admin@admin.com
         const userEmail = localStorage.getItem('userEmail');
@@ -23,6 +25,30 @@ function AddBus() {
             history.push('/'); // Redirect to the root route if the user is not an admin
         }
     }, [history]);
+
+    useEffect(() => {
+      // Get current location coordinates
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setNewBus({
+            ...newBus,
+            lat: position.coords.latitude,
+            lon: position.coords.longitude
+          });
+        });
+      } else {
+       // alert("Geolocation is not supported by your browser");
+
+        const myLat = 13.004202; 
+        const myLon = 80.201471;
+
+        setNewBus({
+          ...newBus,
+          lat: myLat,
+          lon: myLon
+        });
+      }
+    }, []); 
 
 
     const handleSubmit = async (e) => {

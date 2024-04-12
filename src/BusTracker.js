@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Define the marker icon using the images from Leaflet's package
 const markerIcon = new L.Icon({
   iconUrl: require('leaflet/dist/images/marker-icon.png'),
   iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
@@ -25,12 +24,11 @@ const myLocationIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
-
-
 function BusTracker() {
   const [busLocations, setBusLocations] = useState([]);
   const [mapCenter, setMapCenter] = useState([13.038321, 80.213593]); // Default center
-  // Assuming these are your coordinates; replace these with real values or state
+  const [mapZoom, setMapZoom] = useState(12); // Default zoom level
+
   const myLat = 13.004202; 
   const myLon = 80.201471;
 
@@ -52,21 +50,30 @@ function BusTracker() {
     fetchBusLocations();
   }, []);
 
+  const createBusIcon = (busName) => {
+    return L.divIcon({
+      className: 'custom-icon',
+      html: `<div>${busName}</div>`,
+      iconSize: [25, 25],
+      iconAnchor: [25, 50]
+    });
+  };
+
+  const handleBusClick = (bus) => {
+    setMapCenter([bus.lat, bus.lon]);
+    setMapZoom(15); // Zoom level to be adjusted as per requirement
+  };
+
   return (
-    <MapContainer center={mapCenter} zoom={12} style={{ height: '400px', width: '100%' }}>
+    <MapContainer center={mapCenter} zoom={mapZoom} style={{ height: '400px', width: '100%' }}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       {busLocations.map(bus => (
-        <Marker key={bus.id} position={[bus.lat, bus.lon]} icon={markerIcon}>
-          <Popup>{bus.name}</Popup>
-        </Marker>
+        <Marker key={bus.id} position={[bus.lat, bus.lon]} icon={createBusIcon(bus.name)} eventHandlers={{ click: () => handleBusClick(bus) }} />
       ))}
-      {/* Add marker for your location */}
-      <Marker position={[myLat, myLon]} icon={myLocationIcon}>
-  <Popup>You are here</Popup>
-</Marker>
+      <Marker position={[myLat, myLon]} icon={myLocationIcon} />
     </MapContainer>
   );
 }
