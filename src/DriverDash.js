@@ -1,84 +1,114 @@
-import React,{useState, useEffect } from 'react';
-import { Button, TextField,  Container, Grid, Paper, Typography  } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Button, TextField, Container, Grid, Paper, Typography, Card, CardContent } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 function DriverDash() {
-   
     const [busName, setBusName] = useState('');
     const [passcode, setPasscode] = useState('');
-    
+    const [isLive, setIsLive] = useState(false);
+    const [storedBusName,setBus] = useState(null)
+   
 
-      const history = useHistory();
+    const history = useHistory();
 
-      useEffect(() => {
-        // Check if the user's email is not admin@admin.com
+    useEffect(() => {
         const userEmail = localStorage.getItem('userEmail');
-       
+         setBus(localStorage.getItem('driverBus'));
+        // If additional logic is needed, add here
     }, [history]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        // Assuming you have a way to get the driver's email, perhaps stored in local storage or context
-        const email = localStorage.getItem('userEmail');
-    
+    const handleGoLive = async () => {
         navigator.geolocation.getCurrentPosition(async (position) => {
             const { latitude, longitude } = position.coords;
-    
+            const email = localStorage.getItem('userEmail');
+
             try {
-                const response = await axios.post('http://localhost:5000/api/driver/check-in', {
+                await axios.post('http://localhost:5000/api/driver/check-in', {
                     email,
                     passcode,
                     busName,
                     lat: latitude,
                     lon: longitude,
-                },);
-    
-                alert('Bus location updated successfully.\nYOU ARE LIVE!!');
+                });
+
                 
+                setIsLive(true);
+                localStorage.setItem('driverBus', busName); 
+                setBus(busName);
             } catch (error) {
                 console.error('Error during driver check-in:', error.response.data);
                 alert(error.response.data);
+                
             }
         }, (err) => {
             console.error('Error obtaining location:', err.message);
             alert('Failed to get current location. Please ensure location services are enabled.');
+          
         });
     };
-    
+
+    const handleTurnOffLive = () => {
+        setIsLive(false);
+        localStorage.removeItem('busName');
+        setBus()
+    };
+
     const handleSignOut = () => {
-        localStorage.removeItem('token'); // Remove token from localStorage
-        localStorage.removeItem('userEmail'); // Consider removing the email as well
-        window.location = '/userOrDriver'; // Redirect to login page
-      };
+        localStorage.removeItem('token');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('busName');
+        history.push('/userOrDriver');
+    };
 
     return (
         <Container component="main" maxWidth="xs">
-            <div style={{height:'25vh'}}></div>
-            <Grid item xs={12}>
-            <Paper elevation={3} style={{ padding: '20px', backgroundColor:'rgba(0, 0, 0, 0.85)' }}>
-              <Typography variant="h6" style={{ marginBottom: '20px' }}>Driver Check-In</Typography>
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
-                  {/* Form fields */}
-                   {/* Form fields */}
-      
-       <Grid item xs={12}>
-       <TextField fullWidth label="Enter Bus Name" variant="outlined" value={busName} onChange={(e) => setBusName(e.target.value)}  required />
-       </Grid>
-       <Grid item xs={12}>
-         <TextField fullWidth label="6-Digit Passcode" variant="outlined" value={passcode} onChange={(e) => setPasscode(e.target.value)}  required />
-       </Grid>
-       <Grid item xs={12}>
-         <Button type="submit" variant="contained" color="primary" fullWidth>Submit</Button>
-       </Grid>
-                  {/* ... */}
+            <div style={{ height: '25vh' }}></div>
+         
+            {isLive || storedBusName   ? (
+
+              <Grid item xs={12}>
+                    <Paper elevation={3} style={{ padding: '20px', backgroundColor: 'rgba(0, 0, 0, 0.85)' }}>
+                        <Typography variant="h6" style={{ marginBottom: '20px' }}>YOU ARE LIVE!!!</Typography>
+                        <form onSubmit={(e) => { e.preventDefault(); handleTurnOffLive();}}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                <Typography variant="h6" style={{ textAlign:'center'}}>You are driving Bus: {storedBusName}</Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button type="submit" variant="contained" color="primary" fullWidth>Turn Off Live</Button>
+                                </Grid>
+                            </Grid>
+                        </form>
+                    </Paper>
                 </Grid>
-              </form>
-            </Paper>
-          </Grid>
-          <Button onClick={handleSignOut} variant="contained" color="primary" style={{ marginTop: '20px' }}>Sign Out</Button>
+                // <Card style={{ margin: '20px', padding: '20px', backgroundColor: '#c8e6c9' }}>
+                //     <CardContent>
+                //         <Typography variant="h4" style={{ color: '#2e7d32' }}>You Are Live!</Typography>
+                //         <Button variant="contained" color="secondary" onClick={handleTurnOffLive} style={{ marginTop: '20px' }}>Turn Off Live</Button>
+                //     </CardContent>
+                // </Card>
+            ) :(
+              <Grid item xs={12}>
+                  <Paper elevation={3} style={{ padding: '20px', backgroundColor: 'rgba(0, 0, 0, 0.85)' }}>
+                      <Typography variant="h6" style={{ marginBottom: '20px' }}>Driver Check-In</Typography>
+                      <form onSubmit={(e) => { e.preventDefault(); handleGoLive();  }}>
+                          <Grid container spacing={2}>
+                              <Grid item xs={12}>
+                                  <TextField fullWidth label="Enter Bus Name" variant="outlined" value={busName} onChange={(e) => setBusName(e.target.value)} required />
+                              </Grid>
+                              <Grid item xs={12}>
+                                  <TextField fullWidth label="6-Digit Passcode" variant="outlined" value={passcode} onChange={(e) => setPasscode(e.target.value)} required />
+                              </Grid>
+                              <Grid item xs={12}>
+                                  <Button type="submit" variant="contained" color="primary" fullWidth>Go Live</Button>
+                              </Grid>
+                          </Grid>
+                      </form>
+                  </Paper>
+              </Grid>
+          ) }
+            <Button onClick={handleSignOut} variant="contained" color="primary" style={{ marginTop: '20px' }}>Sign Out</Button>
         </Container>
     );
 }

@@ -106,6 +106,7 @@ function Dashboard() {
           </Grid>
         )}
       </Grid>
+      {userEmail==="admin@admin.com" && (<><Button onClick={() => {window.location='./admin'}} variant="contained"  style={{ marginTop: '20px',backgroundColor:"orange" }}>Go to my Admin Panel</Button><br></br></>)}
       <Button onClick={handleSignOut} variant="contained" color="primary" style={{ marginTop: '20px' }}>Sign Out</Button>
     </Container>
     </div>
