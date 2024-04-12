@@ -12,6 +12,7 @@ import AddBus from './AddBus';
 import AddDriver from './AddDriver'
 import  SetDetails from './SetDetails'
 import DriverDash from './DriverDash'
+import ManageEntities from './ManageEntities';
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/add-driver" component={AddDriver} />
                     <Route path="/set-details" component={SetDetails} />
                     <Route path="/driverDash" component={DriverDash} />
+                    <Route path="/manage-entities" component={ManageEntities} />
                    {/* <Route path="/userOrDriver" component={UserOrDriver} />  Make sure this is the last Route */}
                 </Switch>
             </div>

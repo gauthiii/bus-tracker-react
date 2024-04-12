@@ -79,8 +79,8 @@ function BusList({ buses, onBusSelect, myLat, myLon }) {
           onChange={handleRouteChange}
         >
           <MenuItem value="">All Routes</MenuItem>
-          {['Tambaram', 'Chrompet', 'Pallavaram', 'Tirusulam', 'Nanganallur', 'Meenambakkam', 'Alandur', 'Guindy', 'Ashok Nagar', 'Valasaravakkam', 'Vadapalani', 'Koyambedu'].map(route => (
-            <MenuItem key={route} value={route}>{route}</MenuItem>
+          {buses.map(bus => (
+            <MenuItem key={bus.route} value={bus.route}>{bus.route}</MenuItem>
           ))}
         </Select>
       </FormControl>
