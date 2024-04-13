@@ -6,6 +6,8 @@ import { Box, Typography, Paper, FormControl, InputLabel, Select, MenuItem, Butt
 
 // Haversine formula to calculate distance between two points on Earth
 function calculateDistance(lat1, lon1, lat2, lon2) {
+
+    
   const R = 6371; // Earth's radius in kilometers
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -20,12 +22,29 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
   return distance;
 }
 
-function BusList({ buses, onBusSelect, myLat, myLon }) {
+function BusList({ buses, onBusSelect }) {
   const [selectedBusId, setSelectedBusId] = useState(null);
   const [selectedRoute, setSelectedRoute] = useState('');
   const [selectedName, setSelectedName] = useState('');
   const [filteredBuses, setFilteredBuses] = useState(buses);
   const averageSpeedKmH = 20; // Average bus speed in km/h
+
+  const [myLat,setLat] = useState(13.004202)
+  const [myLon,setLon] = useState(80.201471)
+
+  navigator.geolocation.getCurrentPosition(async (position) => {
+    const { latitude, longitude } = position.coords;
+
+    setLat(latitude)
+    setLon(longitude)
+   
+
+  
+}, (err) => {
+    console.error('Error obtaining location:', err.message);
+    alert('Failed to get current location. Please ensure location services are enabled.');
+  
+});
 
   useEffect(() => {
     let result = buses;
@@ -102,7 +121,7 @@ function BusList({ buses, onBusSelect, myLat, myLon }) {
 
       <Button onClick={resetFilter} variant="contained" color="primary" sx={{ mb: 2 }}>Reset Filter</Button>
       {filteredBuses.map(bus => {
-        const distance = calculateDistance(13.004202, 80.201471, bus.lat, bus.lon).toFixed(2);
+        const distance = calculateDistance(myLat, myLon, bus.lat, bus.lon).toFixed(2);
         const travelTimeHours = distance / averageSpeedKmH;
         const travelTimeMinutes = Math.round(travelTimeHours * 60);
 
