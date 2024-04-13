@@ -24,7 +24,7 @@ const myLocationIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
-function BusTracker() {
+function BusTracker({ selectedBus }) {
   const [busLocations, setBusLocations] = useState([]);
   const [mapCenter, setMapCenter] = useState([13.038321, 80.213593]); // Default center
   const [mapZoom, setMapZoom] = useState(12); // Default zoom level
@@ -44,6 +44,13 @@ function BusTracker() {
     alert('Failed to get current location. Please ensure location services are enabled.');
   
 });
+
+useEffect(() => {
+  if (selectedBus) {
+    setMapCenter([selectedBus.lat, selectedBus.lon]);
+    setMapZoom(15);
+  }
+}, [selectedBus]);
 
 
   useEffect(() => {

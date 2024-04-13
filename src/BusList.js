@@ -46,6 +46,8 @@ function BusList({ buses, onBusSelect }) {
   
 });
 
+
+
   useEffect(() => {
     let result = buses;
 
@@ -126,7 +128,7 @@ function BusList({ buses, onBusSelect }) {
         const travelTimeMinutes = Math.round(travelTimeHours * 60);
 
         return (
-          <Box key={bus.id} onClick={() => handleBusSelect(bus)} className="bus-list-item" sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#f0f0f0' } }}>
+          <Box key={bus.id} onClick={() => handleBusSelect(bus)} className="bus-list-item" sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'primary' } }}>
             <Typography variant="subtitle1">
               Bus: {bus.name}
             </Typography>

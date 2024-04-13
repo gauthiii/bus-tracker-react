@@ -126,7 +126,7 @@ code {
 }
 
 .bus-list-item:hover {
-  background-color: red;
+  background-color: rgb(74, 22, 50);
 }
 
 /* Map container */

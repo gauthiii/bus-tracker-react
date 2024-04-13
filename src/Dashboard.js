@@ -107,7 +107,7 @@ function Dashboard() {
         )}
       </Grid>
       {userEmail==="admin@admin.com" && (<><Button onClick={() => {window.location='./admin'}} variant="contained" color='warning'  style={{ marginTop: '20px', width:"200px" }}>Go to my Admin Panel</Button><br></br></>)}
-      {userEmail==="admin@admin.com" && (<><Button onClick={() => {window.location='./profile'}} variant="contained" color="success"  style={{ marginTop: '20px', width:"200px" }}>My Profile</Button><br></br></>)}
+      {/* {userEmail==="admin@admin.com" && (<><Button onClick={() => {window.location='./profile'}} variant="contained" color="success"  style={{ marginTop: '20px', width:"200px" }}>My Profile</Button><br></br></>)} */}
       <Button onClick={handleSignOut} variant="contained" color="primary" style={{ marginTop: '20px', width:"200px" }}>Sign Out</Button>
     </Container>
     </div>
