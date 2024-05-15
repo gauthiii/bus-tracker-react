@@ -11,6 +11,7 @@ function AddBus() {
         lon: '',
         name: '',
         route: '',
+        routes: '', // New field for the list of stops
         status: ''
       });
 
@@ -90,10 +91,16 @@ function AddBus() {
           return;
         }
 
+        // Split the stops into an array before sending to the backend
+        const busData = {
+          ...newBus,
+          routes: newBus.routes.split(',').map(route => route.trim())  // Split and trim stops
+      };
+
         try {
-          await axios.post('http://localhost:5000/api/bus-locations', newBus);
+          await axios.post('http://localhost:5000/api/bus-locations', busData);
           alert('Bus added successfully');
-          setNewBus({ lat: '', lon: '', name: '', route: '', status: '' }); // Reset form
+          setNewBus({ lat: '', lon: '', name: '', route: '', routes: '', status: '' }); // Reset form
         //  fetchBuses(); // Re-fetch buses to update the list
         } catch (error) {
           console.error('Error adding bus:', error);
@@ -122,6 +129,9 @@ function AddBus() {
        </Grid>
        <Grid item xs={12} sm={6}>
        <TextField fullWidth label="Route" variant="outlined" value={newBus.route} onChange={(e) => setNewBus({ ...newBus, route: e.target.value })} required />
+       </Grid>
+       <Grid item xs={12}>
+            <TextField fullWidth label="Stops (comma-separated)" variant="outlined" value={newBus.routes} onChange={(e) => setNewBus({ ...newBus, routes: e.target.value })} required />
        </Grid>
        <Grid item xs={12}>
          <TextField fullWidth label="Status" variant="outlined" value={newBus.status} onChange={(e) => setNewBus({ ...newBus, status: e.target.value })} required />

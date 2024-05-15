@@ -138,13 +138,24 @@ function BusList({ buses, onBusSelect }) {
               Bus: {bus.name} {index===0 && "(Nearest Bus)"}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              ID: {bus.id}<br />
-              Route: {bus.route}<br />
-              Status: {bus.status}
+              
+              Final Destination: {bus.route}<br />
+              Current Status: {bus.status}<br />
+              Estimated Arrival Time: {travelTimeMinutes} minutes <br />
               {selectedBusId === bus.id && (
                 <>
-                  <br />Distance: {distance} km<br />
-                  Estimated Arrival Time: {travelTimeMinutes} minutes
+                  
+                  
+                  Distance: {distance} km<br />
+                  
+                  Stops: {bus.routes.length}<br />
+                  
+                  {bus.routes.map((r) => {
+
+                    return r+"\n"
+
+                  })} <br />
+                  Unique ID: {bus.id}<br />
                 </>
               )}
             </Typography>
