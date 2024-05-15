@@ -24,6 +24,31 @@ function AddBus() {
         if (userEmail !== "admin@admin.com") {
             history.push('/'); // Redirect to the root route if the user is not an admin
         }
+
+          // Get current location coordinates
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setNewBus({
+            ...newBus,
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+            status: "Driver not Assigned"
+          });
+        });
+      } else {
+       // alert("Geolocation is not supported by your browser");
+
+        const myLat = 13.004202; 
+        const myLon = 80.201471;
+
+        setNewBus({
+          ...newBus,
+          lat: myLat,
+          lon: myLon,
+          status: "Driver not Assigned"
+        });
+      }
+
     }, [history]);
 
     useEffect(() => {
@@ -46,14 +71,25 @@ function AddBus() {
         setNewBus({
           ...newBus,
           lat: myLat,
-          lon: myLon
+          lon: myLon,
+          status: "Driver not Assigned"
         });
       }
     }, []); 
 
+    const validateBusName = (name) => {
+      const regex = /^\d{2}[A-Za-z]$/;
+      return regex.test(name);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateBusName(newBus.name)) {
+          alert("Invalid Bus Name.\nIt should be in the format '<digit><digit><letter>' where the first two characters are digits and the last is a letter.\nValid Bus Names:\n21G\n45C\n65P\n98K");
+          return;
+        }
+
         try {
           await axios.post('http://localhost:5000/api/bus-locations', newBus);
           alert('Bus added successfully');

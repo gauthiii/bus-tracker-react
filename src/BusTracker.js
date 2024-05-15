@@ -48,9 +48,10 @@ function BusTracker({ selectedBus }) {
 useEffect(() => {
   if (selectedBus) {
     setMapCenter([selectedBus.lat, selectedBus.lon]);
-    setMapZoom(15);
+    setMapZoom(15); // A good zoom level to focus on the bus
   }
-}, [selectedBus]);
+}, [selectedBus]);  // Ensure effect runs only when selectedBus changes
+
 
 
   useEffect(() => {

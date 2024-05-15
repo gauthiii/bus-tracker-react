@@ -59,7 +59,12 @@ function BusList({ buses, onBusSelect }) {
       result = result.filter(bus => bus.name === selectedName);
     }
 
-    setFilteredBuses(result);
+    const sortedBuses = result.map(bus => ({
+      ...bus,
+      distance: calculateDistance(myLat, myLon, bus.lat, bus.lon)
+    })).sort((a, b) => a.distance - b.distance);
+
+    setFilteredBuses(sortedBuses);
   }, [buses, selectedRoute, selectedName]);
 
   const handleBusSelect = (bus) => {
@@ -122,7 +127,7 @@ function BusList({ buses, onBusSelect }) {
 
 
       <Button onClick={resetFilter} variant="contained" color="primary" sx={{ mb: 2 }}>Reset Filter</Button>
-      {filteredBuses.map(bus => {
+      {filteredBuses.map((bus, index) => {
         const distance = calculateDistance(myLat, myLon, bus.lat, bus.lon).toFixed(2);
         const travelTimeHours = distance / averageSpeedKmH;
         const travelTimeMinutes = Math.round(travelTimeHours * 60);
@@ -130,7 +135,7 @@ function BusList({ buses, onBusSelect }) {
         return (
           <Box key={bus.id} onClick={() => handleBusSelect(bus)} className="bus-list-item" sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'primary' } }}>
             <Typography variant="subtitle1">
-              Bus: {bus.name}
+              Bus: {bus.name} {index===0 && "(Nearest Bus)"}
             </Typography>
             <Typography variant="body2" color="textSecondary">
               ID: {bus.id}<br />
