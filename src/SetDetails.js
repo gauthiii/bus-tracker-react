@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { TextField, Button } from '@mui/material';
+import { API_URL } from './App'; 
 
 function SetDetails({ userId, onDetailsSet }) {
   const [name, setName] = useState('');
@@ -10,7 +11,7 @@ function SetDetails({ userId, onDetailsSet }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/set-details', { userId, name, passcode });
+      const response = await axios.post(`${API_URL}/api/set-details`, { userId, name, passcode });
       alert(response.data.message);
       onDetailsSet(); // Callback to trigger a re-login or update state
     } catch (error) {

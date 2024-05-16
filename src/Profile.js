@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, TextField, Button, Box, Typography } from '@mui/material';
+import { API_URL } from './App'; 
 
 function Profile() {
     const [profile, setProfile] = useState({
@@ -11,7 +12,7 @@ function Profile() {
 
     const fetchProfile = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/profile', {
+            const { data } = await axios.get(`${API_URL}/api/profile`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
@@ -29,7 +30,7 @@ function Profile() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/set-details', profile, {
+            await axios.post(`${API_URL}/api/set-details`, profile, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },

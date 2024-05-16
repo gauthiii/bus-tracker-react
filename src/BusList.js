@@ -101,7 +101,7 @@ function BusList({ buses, onBusSelect }) {
         <InputLabel>Filter by Route</InputLabel>
         <Select
           value={selectedRoute}
-          label="Filter by Route"
+          label="Filter by Destination"
           onChange={handleRouteChange}
         >
           <MenuItem value="">All Routes</MenuItem>

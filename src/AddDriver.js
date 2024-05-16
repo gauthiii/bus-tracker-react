@@ -2,6 +2,7 @@ import React,{useState, useEffect } from 'react';
 import { Button, TextField, FormControl, InputLabel, Select, MenuItem, Container, Grid, Paper, Typography, Box  } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from './App'; 
 
 function AddDriver() {
 
@@ -56,7 +57,7 @@ function AddDriver() {
 
         try {
 
-            const response = await axios.post('http://localhost:5000/api/register1', driverDetails);
+            const response = await axios.post(`${API_URL}/api/register1`, driverDetails);
             alert('Driver added successfully');
             // Reset form fields
             setEmail('');

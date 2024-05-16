@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, TextField, Container, Grid, Paper, Typography, Card, CardContent } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from './App'; 
 
 const reverseGeocodeNominatim = async (latitude, longitude) => {
   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
@@ -55,7 +56,7 @@ function DriverDash() {
             console.log("address: ", address);
 
             try {
-                await axios.post('http://localhost:5000/api/driver/check-in', {
+                await axios.post(`${API_URL}/api/driver/check-in`, {
                     email,
                     passcode,
                     busName,
@@ -95,7 +96,7 @@ function DriverDash() {
        const longitude = localStorage.getItem('driverLon');
 
         try {
-          await axios.post('http://localhost:5000/api/driver/check-in', {
+          await axios.post(`${API_URL}/api/driver/check-in`, {
               email,
               passcode,
               busName,

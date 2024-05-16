@@ -14,6 +14,8 @@ import  SetDetails from './SetDetails'
 import DriverDash from './DriverDash'
 import ManageEntities from './ManageEntities';
 
+export const API_URL = 'http://localhost:5000';
+
 function App() {
     return (
         <Router>

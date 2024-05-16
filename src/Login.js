@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useLocation, useHistory  } from 'react-router-dom'; // Import Link from react-router-dom
 import './AuthForm.css';
 import SetDetails from './SetDetails'; // This is the new component you need to create
+import { API_URL } from './App'; 
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -33,7 +34,7 @@ function Login() {
       e.preventDefault();
       const userType = new URLSearchParams(location.search).get('userType');
     try {
-        const response = await axios.post('http://localhost:5000/api/login', { email, password, userType });
+        const response = await axios.post(`${API_URL}/api/login`, { email, password, userType });
   
         if (response.status === 202) {
           // Server responded with a request for additional details

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { API_URL } from './App'; 
 
 const markerIcon = new L.Icon({
   iconUrl: require('leaflet/dist/images/marker-icon.png'),
@@ -57,7 +58,7 @@ useEffect(() => {
   useEffect(() => {
     async function fetchBusLocations() {
       try {
-        const response = await axios.get('http://localhost:5000/api/bus-locations');
+        const response = await axios.get(`${API_URL}/api/bus-locations`);
         setBusLocations(response.data);
         if (response.data.length > 0) {
           const avgLat = response.data.reduce((acc, cur) => acc + cur.lat, 0) / response.data.length;

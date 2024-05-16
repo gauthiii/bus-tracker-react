@@ -2,6 +2,7 @@ import React,{useState, useEffect } from 'react';
 import { Button, TextField, FormControl, InputLabel, Select, MenuItem, Container, Grid, Paper, Typography, Box  } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from './App'; 
 
 function AddBus() {
    
@@ -98,7 +99,7 @@ function AddBus() {
       };
 
         try {
-          await axios.post('http://localhost:5000/api/bus-locations', busData);
+          await axios.post(`${API_URL}/api/bus-locations`, busData);
           alert('Bus added successfully');
           setNewBus({ lat: '', lon: '', name: '', route: '', routes: '', status: '' }); // Reset form
         //  fetchBuses(); // Re-fetch buses to update the list

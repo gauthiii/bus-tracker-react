@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, CardContent, List, ListItem, ListItemText, ListItemSecondaryAction, Typography } from '@mui/material';
 import axios from 'axios';
+import { API_URL } from './App'; 
 
 function ManageEntities() {
     const [users, setUsers] = useState([]);
@@ -13,7 +14,7 @@ function ManageEntities() {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/users');
+            const response = await axios.get(`${API_URL}/api/users`);
             // Filter the users to include only those whose role is 'driver' and email is not 'admin@admin.com'
             const drivers = response.data.filter(user => user.role === 'driver' && user.email !== 'admin@admin.com');
             setUsers(drivers);
@@ -25,12 +26,12 @@ function ManageEntities() {
     
 
     const fetchBuses = async () => {
-        const response = await axios.get('http://localhost:5000/api/bus-locations');
+        const response = await axios.get(`${API_URL}/api/bus-locations`);
         setBuses(response.data);
     };
 
     const deleteUser = async (userId) => {
-        await axios.delete(`http://localhost:5000/api/users/${userId}`);
+        await axios.delete(`${API_URL}/api/users/${userId}`);
         fetchUsers();
         alert("User Deleted!!");
     };
@@ -38,7 +39,7 @@ function ManageEntities() {
     const deleteBus = async (busId) => {
 
         try {
-            const response = await axios.delete(`http://localhost:5000/api/bus-locations/${busId}`);
+            const response = await axios.delete(`${API_URL}/api/bus-locations/${busId}`);
             console.log(response.data);
             fetchBuses();
             alert("Bus Deleted!!");

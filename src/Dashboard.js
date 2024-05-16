@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Button, TextField, FormControl, InputLabel, Select, MenuItem, Container, Grid, Paper, Typography, Box  } from '@mui/material';
 import BusList from './BusList';
 import BusTracker from './BusTracker';
+import { API_URL } from './App'; 
 
 function Dashboard() {
   const [buses, setBuses] = useState([]);
@@ -25,7 +26,7 @@ function Dashboard() {
   const fetchBuses = async () => {
     console.log(userEmail)
     try {
-      const response = await axios.get('http://localhost:5000/api/bus-locations');
+      const response = await axios.get(`${API_URL}/api/bus-locations`);
       setBuses(response.data);
     } catch (error) {
       console.error('Error fetching buses:', error);
@@ -41,7 +42,7 @@ function Dashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/bus-locations', newBus);
+      await axios.post(`${API_URL}/api/bus-locations`, newBus);
       alert('Bus added successfully');
       setNewBus({ lat: '', lon: '', name: '', route: '', status: '' }); // Reset form
       fetchBuses(); // Re-fetch buses to update the list
