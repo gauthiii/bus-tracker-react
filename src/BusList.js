@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Paper, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
-
+import { Box, Typography, Paper, FormControl, InputLabel, Select, MenuItem, Button,LinearProgress } from '@mui/material';
+import CustomProgressBar from './CustomProgressBar'; 
 
 
 // Haversine formula to calculate distance between two points on Earth
@@ -131,6 +131,7 @@ function BusList({ buses, onBusSelect }) {
         const distance = calculateDistance(myLat, myLon, bus.lat, bus.lon).toFixed(2);
         const travelTimeHours = distance / averageSpeedKmH;
         const travelTimeMinutes = Math.round(travelTimeHours * 60);
+        const completionRate = (bus.stopsCompleted / bus.routes.length) * 100; // Calculate the percentage of stops completed
 
         return (
           <Box key={bus.id} onClick={() => handleBusSelect(bus)} className="bus-list-item" sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'primary' } }}>
@@ -142,6 +143,7 @@ function BusList({ buses, onBusSelect }) {
               Final Destination: {bus.route}<br />
               Current Status: {bus.status}<br />
               Estimated Arrival Time: {travelTimeMinutes} minutes <br />
+              <><div style={{marginTop:10,marginBottom:10}}><CustomProgressBar totalStops={bus.routes.length} completedStops={bus.stopsCompleted} /></div> </>
               {selectedBusId === bus.id && (
                 <>
                   

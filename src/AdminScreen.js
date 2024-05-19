@@ -7,6 +7,7 @@ function AdminScreen() {
 
     const navigateToAddDriver = () => history.push('/add-driver'); // Adjust the route as needed
     const navigateToAddBus = () => history.push('/add-bus'); // Adjust the route as needed
+    const navigateToUpdateBus = () => history.push('/update-bus'); // Adjust the route as needed
     const navigateToDashboard = () => history.push('/?userType=admin'); // Adjust the route as needed
     const navigateToManage = () => history.push('/manage-entities?userType=admin'); 
 
@@ -37,7 +38,10 @@ function AdminScreen() {
             <Button variant="contained" color="secondary" fullWidth onClick={navigateToAddBus} style={{ marginBottom: '20px' }}>
                 Add Bus
             </Button>
-            <Button variant="contained" color="success" fullWidth onClick={navigateToDashboard} style={{ marginBottom: '20px' }}>
+            <Button variant="contained" color="success" fullWidth onClick={navigateToUpdateBus} style={{ marginBottom: '20px' }}>
+                Update Bus
+            </Button>
+            <Button variant="contained" color="secondary" fullWidth onClick={navigateToDashboard} style={{ marginBottom: '20px' }}>
                 View Dashboard
             </Button>
             <Button variant="contained" color="warning" fullWidth onClick={navigateToManage} style={{ marginBottom: '20px' }}>

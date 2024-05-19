@@ -13,6 +13,7 @@ import AddDriver from './AddDriver'
 import  SetDetails from './SetDetails'
 import DriverDash from './DriverDash'
 import ManageEntities from './ManageEntities';
+import UpdateBusRoutes from './UpdateBusRoutes';
 
 export const API_URL = 'http://localhost:5001';
 
@@ -28,6 +29,7 @@ function App() {
                     <ProtectedRoute path="/" exact component={Dashboard} />
                     <Route path="/admin" component={AdminScreen} />
                     <Route path="/add-bus" component={AddBus} />
+                    <Route path="/update-bus" component={UpdateBusRoutes} />
                     <Route path="/add-driver" component={AddDriver} />
                     <Route path="/set-details" component={SetDetails} />
                     <Route path="/driverDash" component={DriverDash} />
