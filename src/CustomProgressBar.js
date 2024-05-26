@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, LinearProgress } from '@mui/material';
 
 function CustomProgressBar({ totalStops, completedStops }) {
-    const completionRate = (1 / totalStops) * 100;
+    const completionRate = (completedStops / totalStops) * 100;
 
     // Ensure there's always a start and end point
     let stopPositions = [0]; // Start

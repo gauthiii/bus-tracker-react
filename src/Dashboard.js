@@ -55,6 +55,19 @@ function Dashboard() {
   return (
     <div >
       <Box className="dashbback"></Box>
+       {/* Navigation Bar */}
+       <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Paper style={{ padding: '10px' }}>
+              <Button variant="text" color="inherit" href="/">Home</Button>
+              <Button variant="text" color="inherit" href="/profile">Profile</Button>
+              <Button variant="text" color="inherit" href="/settings">Settings</Button>
+              {userEmail==="admin@admin.com" && <Button variant="text" color="inherit" href="/admin">Admin Panel</Button>}
+              <Button onClick={handleSignOut} variant="text" color="inherit">Sign Out</Button>
+            </Paper>
+          </Grid>
+        </Grid>
+        {/* Dashboard Content */}
     <Container style={{padding:"40px"}} maxWidth="2g">
       <Grid container spacing={3}>
         <Grid item xs={12} container>
@@ -107,9 +120,9 @@ function Dashboard() {
           </Grid>
         )}
       </Grid>
-      {userEmail==="admin@admin.com" && (<><Button onClick={() => {window.location='./admin'}} variant="contained" color='warning'  style={{ marginTop: '20px', width:"200px" }}>Go to my Admin Panel</Button><br></br></>)}
+      {/* {userEmail==="admin@admin.com" && (<><Button onClick={() => {window.location='./admin'}} variant="contained" color='warning'  style={{ marginTop: '20px', width:"200px" }}>Go to my Admin Panel</Button><br></br></>)} */}
       {/* {userEmail==="admin@admin.com" && (<><Button onClick={() => {window.location='./profile'}} variant="contained" color="success"  style={{ marginTop: '20px', width:"200px" }}>My Profile</Button><br></br></>)} */}
-      <Button onClick={handleSignOut} variant="contained" color="primary" style={{ marginTop: '20px', width:"200px" }}>Sign Out</Button>
+      {/* <Button onClick={handleSignOut} variant="contained" color="primary" style={{ marginTop: '20px', width:"200px" }}>Sign Out</Button> */}
     </Container>
     </div>
   );

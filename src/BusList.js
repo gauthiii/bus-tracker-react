@@ -143,7 +143,7 @@ function BusList({ buses, onBusSelect }) {
               Final Destination: {bus.route}<br />
               Current Status: {bus.status}<br />
               Estimated Arrival Time: {travelTimeMinutes} minutes <br />
-              <><div style={{marginTop:10,marginBottom:10}}><CustomProgressBar totalStops={bus.routes.length} completedStops={bus.stopsCompleted} /></div> </>
+              {bus.routes.length !== 0 &&  <><div style={{marginTop:10,marginBottom:10}}><CustomProgressBar totalStops={bus.routes.length} completedStops={bus.stopsCompleted} /></div> </>}
               {selectedBusId === bus.id && (
                 <>
                   
