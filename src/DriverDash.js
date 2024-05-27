@@ -27,6 +27,7 @@ const reverseGeocodeNominatim = async (latitude, longitude) => {
 function DriverDash() {
     const [busName, setBusName] = useState('');
     const [passcode, setPasscode] = useState('');
+    const [stops, setStops] = useState('');
     const [isLive, setIsLive] = useState(false);
     const [storedBusName,setBus] = useState(null)
    
@@ -62,7 +63,9 @@ function DriverDash() {
                     busName,
                     lat: latitude,
                     lon: longitude,
-                    address
+                    address,
+                    active:true,
+                    stops
                 });
 
                 
@@ -71,7 +74,8 @@ function DriverDash() {
                 localStorage.setItem('driverEmail', email); 
                 localStorage.setItem('driverPasscode', passcode); 
                 localStorage.setItem('driverLat', latitude); 
-                localStorage.setItem('driverLon', longitude);  
+                localStorage.setItem('driverLon', longitude);
+                localStorage.setItem('stops', stops);    
                 setBus(busName);
             } catch (error) {
                 console.error('Error during driver check-in:', error.response.data);
@@ -94,6 +98,7 @@ function DriverDash() {
        const busName = localStorage.getItem ('driverBus');
        const latitude = localStorage.getItem('driverLat');
        const longitude = localStorage.getItem('driverLon');
+       const stops = localStorage.getItem('stops');
 
         try {
           await axios.post(`${API_URL}/api/driver/check-in`, {
@@ -102,7 +107,9 @@ function DriverDash() {
               busName,
               lat: latitude,
               lon: longitude,
-              address:"Driver not Assigned"
+              address:"Driver not Assigned",
+              active:false,
+              stops
           });
 
           localStorage.removeItem('busName');
@@ -110,6 +117,7 @@ function DriverDash() {
         localStorage.removeItem('driverPasscode');
         localStorage.removeItem('driverLat');
         localStorage.removeItem('driverLon');
+        localStorage.removeItem('stops');
           
       } catch (error) {
           console.error('Error during driver live off', error.response.data);
@@ -127,6 +135,7 @@ function DriverDash() {
         localStorage.removeItem('driverPasscode');
         localStorage.removeItem('driverLat');
         localStorage.removeItem('driverLon');
+        localStorage.removeItem('stops');
         history.push('/userOrDriver');
     };
 
@@ -168,6 +177,9 @@ function DriverDash() {
                               </Grid>
                               <Grid item xs={12}>
                                   <TextField fullWidth label="6-Digit Passcode" variant="outlined" value={passcode} onChange={(e) => setPasscode(e.target.value)} required />
+                              </Grid>
+                              <Grid item xs={12}>
+                                  <TextField fullWidth label="Stops Completed" variant="outlined" value={stops} onChange={(e) => setStops(e.target.value)} required />
                               </Grid>
                               <Grid item xs={12}>
                                   <Button type="submit" variant="contained" color="primary" fullWidth>Go Live</Button>

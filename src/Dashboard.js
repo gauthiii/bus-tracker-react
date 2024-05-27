@@ -15,12 +15,14 @@ function Dashboard() {
     route: '',
     status: ''
   });
+  const [userDetails, setUserDetails] = useState({});
 
   // Assuming you're storing the user's email in local storage upon login
   const userEmail = localStorage.getItem('userEmail'); // Adjust according to your storage key
 
   useEffect(() => {
     fetchBuses();
+    fetchUserDetails();
   }, []);
 
   const fetchBuses = async () => {
@@ -32,6 +34,15 @@ function Dashboard() {
       console.error('Error fetching buses:', error);
     }
   };
+
+  const fetchUserDetails = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/api/users/details`, { params: { email: userEmail } });
+        setUserDetails(response.data);
+    } catch (error) {
+        console.error('Error fetching user details:', error);
+    }
+};
 
   const handleSignOut = () => {
     localStorage.removeItem('token'); // Remove token from localStorage
@@ -58,7 +69,8 @@ function Dashboard() {
        {/* Navigation Bar */}
        <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Paper style={{ padding: '10px' }}>
+            <Paper style={{ padding: '10px' , backgroundColor:'',borderRadius:'0px'}}>
+             <Button> Hello {userDetails.role==="driver" && userDetails.email==="admin@admin.com"?"admin":userDetails.role} </Button>
               <Button variant="text" color="inherit" href="/">Home</Button>
               <Button variant="text" color="inherit" href="/profile">Profile</Button>
               <Button variant="text" color="inherit" href="/settings">Settings</Button>
