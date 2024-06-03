@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TextField, Container, Grid, Paper, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Button, TextField, Container, Grid, Paper, Typography, Select, MenuItem, FormControl, InputLabel, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { API_URL } from './App'; 
@@ -29,6 +29,7 @@ function DriverDash() {
   const [isLive, setIsLive] = useState(false);
   const [storedBusName, setBus] = useState(null);
   const history = useHistory();
+  const [loading, setLoading] = useState(false); // State to manage loading
 
   useEffect(() => {
     fetchBuses();
@@ -64,6 +65,7 @@ function DriverDash() {
   };
 
   const handleGoLive = async () => {
+    setLoading(true); 
     navigator.geolocation.getCurrentPosition(async (position) => {
       const { latitude, longitude } = position.coords;
       const email = localStorage.getItem('userEmail');
@@ -98,9 +100,11 @@ function DriverDash() {
       console.error('Error obtaining location:', err.message);
       alert('Failed to get current location. Please ensure location services are enabled.');
     });
+    setLoading(false); 
   };
 
   const handleTurnOffLive = async () => {
+    setLoading(true); 
     setIsLive(false);
     setBus(null); // Resetting the stored bus name if necessary
 
@@ -136,6 +140,7 @@ function DriverDash() {
         console.error('Error during driver live off', error.response.data);
         alert(error.response.data);
     }
+    setLoading(false); 
 };
 
 
@@ -204,7 +209,7 @@ function DriverDash() {
                 <Grid item xs={12}>
                   <TextField fullWidth label="6-Digit Passcode" variant="outlined" value={passcode} onChange={(e) => setPasscode(e.target.value)} required />
                 </Grid>
-                <Grid item xs={12}>
+           <Grid item xs={12}>
                   <Button type="submit" variant="contained" color="primary" fullWidth>Go Live</Button>
                 </Grid>
 
@@ -213,7 +218,8 @@ function DriverDash() {
           </Paper>
         </Grid>
       )}
-      <Button onClick={handleSignOut} variant="contained" color="primary" style={{ marginTop: '20px' }}>Sign Out</Button>
+      <Button onClick={handleSignOut} variant="contained" color="primary" style={{ marginTop: '20px',marginBottom:'50px' }}>Sign Out</Button>
+
     </Container>
   );
 }

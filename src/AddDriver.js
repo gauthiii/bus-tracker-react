@@ -9,7 +9,7 @@ function AddDriver() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
-    const [passcode, setPasscode] = useState('');
+    const [passcode, setPasscode] = useState('123456');
    
 
    
@@ -53,7 +53,7 @@ function AddDriver() {
             return;
         }
 
-        const driverDetails = { email, password, name, passcode };
+        const driverDetails = { email, password, name, passcode: "123456" };
 
         try {
 
@@ -63,7 +63,7 @@ function AddDriver() {
             setEmail('');
             setPassword('');
             setName('');
-            setPasscode('');
+            setPasscode('123456');
           
         } catch (error) {
           console.error('Error adding driver:', error);
@@ -92,9 +92,9 @@ function AddDriver() {
        <Grid item xs={12}>
          <TextField fullWidth label="Driver Name" variant="outlined" value={name} onChange={(e) => setName(e.target.value)}  required />
        </Grid>
-       <Grid item xs={12}>
+       {/* <Grid item xs={12}>
          <TextField fullWidth label="6-Digit Passcode" variant="outlined" value={passcode} onChange={(e) => setPasscode(e.target.value)}  required />
-       </Grid>
+       </Grid> */}
        <Grid item xs={12}>
          <Button type="submit" variant="contained" color="primary" fullWidth>Register Driver</Button>
        </Grid>

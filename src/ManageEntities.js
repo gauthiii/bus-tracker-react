@@ -72,7 +72,7 @@ function ManageEntities() {
                     <List>
                         {buses.map(bus => (
                             <ListItem key={bus.id} style={{ background: '#000000', marginBottom: '10px', borderRadius:"10px" }}>
-                                <ListItemText primary={bus.name} secondary={`Route: ${bus.route}`} />
+                                <ListItemText primary={bus.name} secondary={`Destination: ${bus.route}, Passcode: ${bus.pass}`}/>
                                 <ListItemSecondaryAction>
                                     <Button color="warning" variant="contained" onClick={() => deleteBus(bus.id)}>Delete</Button>
                                 </ListItemSecondaryAction>

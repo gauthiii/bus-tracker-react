@@ -13,7 +13,8 @@ function AddBus() {
         name: '',
         route: '',
         routes: '', // New field for the list of stops
-        status: ''
+        status: '',
+        pass:'',
       });
 
       const history = useHistory();
@@ -84,6 +85,8 @@ function AddBus() {
       return regex.test(name);
     };
 
+    const isValidPasscode = passcode => /^[0-9]{6}$/.test(passcode);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -91,6 +94,13 @@ function AddBus() {
           alert("Invalid Bus Name.\nIt should be in the format '<digit><digit><letter>' where the first two characters are digits and the last is a letter.\nValid Bus Names:\n21G\n45C\n65P\n98K");
           return;
         }
+
+        if (!isValidPasscode(newBus.pass)) {
+          alert("Passcode must be exactly 6 digits.");
+          return;
+      }
+
+       
 
         // Split the stops into an array before sending to the backend
         const busData = {
@@ -101,7 +111,7 @@ function AddBus() {
         try {
           await axios.post(`${API_URL}/api/bus-locations`, busData);
           alert('Bus added successfully');
-          setNewBus({ lat: '', lon: '', name: '', route: '', routes: '', status: '' }); // Reset form
+          setNewBus({ lat: '', lon: '', name: '', route: '', routes: '', status: '', pass:'' }); // Reset form
         //  fetchBuses(); // Re-fetch buses to update the list
         } catch (error) {
           console.error('Error adding bus:', error);
@@ -129,13 +139,16 @@ function AddBus() {
          <TextField fullWidth label="Bus Name" variant="outlined" value={newBus.name} onChange={(e) => setNewBus({ ...newBus, name: e.target.value })} required />
        </Grid>
        <Grid item xs={12} sm={6}>
-       <TextField fullWidth label="Route" variant="outlined" value={newBus.route} onChange={(e) => setNewBus({ ...newBus, route: e.target.value })} required />
+       <TextField fullWidth label="Final Destination" variant="outlined" value={newBus.route} onChange={(e) => setNewBus({ ...newBus, route: e.target.value })} required />
        </Grid>
-       <Grid item xs={12}>
+       {/* <Grid item xs={12}>
             <TextField fullWidth label="Stops (comma-separated)" variant="outlined" value={newBus.routes} onChange={(e) => setNewBus({ ...newBus, routes: e.target.value })} required />
-       </Grid>
+       </Grid> */}
        <Grid item xs={12}>
          <TextField fullWidth label="Status" variant="outlined" value={newBus.status} onChange={(e) => setNewBus({ ...newBus, status: e.target.value })} required />
+       </Grid>
+       <Grid item xs={12}>
+         <TextField fullWidth label="Passcode" variant="outlined" value={newBus.pass} onChange={(e) => setNewBus({ ...newBus, pass: e.target.value })} required />
        </Grid>
        <Grid item xs={12}>
          <Button type="submit" variant="contained" color="primary" fullWidth>Add Bus</Button>
