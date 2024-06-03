@@ -30,11 +30,23 @@ function DriverDash() {
   const [storedBusName, setBus] = useState(null);
   const history = useHistory();
   const [loading, setLoading] = useState(false); // State to manage loading
+  const [userDetails, setUserDetails] = useState({});
+  const userEmail = localStorage.getItem('userEmail');
 
   useEffect(() => {
     fetchBuses();
     setBus(localStorage.getItem('driverBus'));
+    fetchUserDetails();
   }, [history]);
+
+  const fetchUserDetails = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/api/users/details`, { params: { email: userEmail } });
+        setUserDetails(response.data);
+    } catch (error) {
+        console.error('Error fetching user details:', error);
+    }
+};
 
   const fetchBuses = async () => {
     try {
@@ -157,6 +169,21 @@ function DriverDash() {
   };
 
   return (
+    <>
+        {/* Navigation Bar */}
+        <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Paper style={{ padding: '10px' , backgroundColor:'',borderRadius:'0px'}}>
+           <Button> Hello {userDetails.role==="driver" && userDetails.email==="admin@admin.com"?"admin":userDetails.role} </Button>
+            <Button variant="text" color="inherit" href="/driverDash">Home</Button>
+            <Button variant="text" color="inherit" href="/">Public Dashboard</Button>
+            <Button variant="text" color="inherit" href="/profile">Profile</Button>
+            {/* <Button variant="text" color="inherit" href="/settings">Settings</Button> */}
+            {userEmail==="admin@admin.com" && <Button variant="text" color="inherit" href="/admin">Admin Panel</Button>}
+            <Button onClick={handleSignOut} variant="text" color="inherit">Sign Out</Button>
+          </Paper>
+        </Grid>
+      </Grid>
     <Container component="main" maxWidth="xs">
       <div style={{ height: '25vh' }}></div>
       {isLive || storedBusName ? (
@@ -221,6 +248,7 @@ function DriverDash() {
       <Button onClick={handleSignOut} variant="contained" color="primary" style={{ marginTop: '20px',marginBottom:'50px' }}>Sign Out</Button>
 
     </Container>
+    </>
   );
 }
 

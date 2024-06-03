@@ -73,8 +73,9 @@ function Dashboard() {
              <Button> Hello {userDetails.role==="driver" && userDetails.email==="admin@admin.com"?"admin":userDetails.role} </Button>
               <Button variant="text" color="inherit" href="/">Home</Button>
               <Button variant="text" color="inherit" href="/profile">Profile</Button>
-              <Button variant="text" color="inherit" href="/settings">Settings</Button>
+              {/* <Button variant="text" color="inherit" href="/settings">Settings</Button> */}
               {userEmail==="admin@admin.com" && <Button variant="text" color="inherit" href="/admin">Admin Panel</Button>}
+              {userEmail!=="admin@admin.com" && userDetails.role==="driver" && <Button variant="text" color="inherit" href="/driverDash">Driver Panel</Button>}
               <Button onClick={handleSignOut} variant="text" color="inherit">Sign Out</Button>
             </Paper>
           </Grid>
