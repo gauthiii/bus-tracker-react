@@ -3,6 +3,8 @@ import { Button, TextField, Container, Grid, Paper, Typography, Select, MenuItem
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { API_URL } from './App'; 
+import BusList from './BusList';
+
 
 const reverseGeocodeNominatim = async (latitude, longitude) => {
   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
@@ -184,8 +186,14 @@ function DriverDash() {
           </Paper>
         </Grid>
       </Grid>
-    <Container component="main" maxWidth="xs">
-      <div style={{ height: '25vh' }}></div>
+      <Grid container spacing={3}>
+         {/* Add BusList component */}
+     <Grid style={{marginTop:'10vh',marginLeft:'5vw'}} item xs={12} md={4}>
+        <BusList buses={buses} onBusSelect={setBusName} />
+      </Grid>
+      </Grid>
+    <Container style={{marginTop:'-50vh',marginLeft:'50vw'}} component="main" maxWidth="xs">
+     
       {isLive || storedBusName ? (
         <Grid item xs={12}>
           <Paper elevation={3} style={{ padding: '20px', backgroundColor: 'rgba(0, 0, 0, 0.85)' }}>
@@ -246,7 +254,9 @@ function DriverDash() {
         </Grid>
       )}
       <Button onClick={handleSignOut} variant="contained" color="primary" style={{ marginTop: '20px',marginBottom:'50px' }}>Sign Out</Button>
-
+     
+    
+      
     </Container>
     </>
   );
